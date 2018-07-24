@@ -13,11 +13,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Game extends Application {
 
-    private static final int BOMB_COUNT = 10;
-    private static final int TILES = 20;
-    private static final int TILE_SIZE = 30;
-    private static final int PADDING = 3;
-    private static final int MARGIN = 5;
+    private final int BOMB_COUNT = 10;
+    private final int TILES = 20;
+    private final int TILE_SIZE = 30;
+    private final int PADDING = 3;
+    private final int MARGIN = 5;
     private Cell[][] grid = new Cell[TILES][TILES];
 
     @Override
