@@ -1,0 +1,74 @@
+.cell {
+    /*-fx-background-color: cadetblue;*/
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.8), 5, 0, -1, -1);
+    -fx-background-color: lightgray;
+}
+
+.cell:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.open {
+    -fx-background-color: gray;
+    -fx-background-size: cover;
+}
+
+.marked {
+    -fx-background-image: url("/resources/img/flag.png");
+    -fx-background-size: cover;
+}
+
+.bomb {
+    -fx-background-image: url("/resources/img/bomb.png");
+    -fx-background-size: cover;
+}
+
+.open:hover {
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+.bomb:hover {
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+.marked:hover {
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+.n1 {
+    -fx-background-image: url("/resources/img/1.png");
+}
+
+.n2 {
+    -fx-background-image: url("/resources/img/2.png");
+}
+
+.n3 {
+    -fx-background-image: url("/resources/img/3.png");
+}
+
+.n4 {
+    -fx-background-image: url("/resources/img/4.png");
+}
+
+.n5 {
+    -fx-background-image: url("/resources/img/5.png");
+}
+
+.n6 {
+    -fx-background-image: url("/resources/img/6.png");
+}
+
+.n7 {
+    -fx-background-image: url("/resources/img/7.png");
+}
+
+.n8 {
+    -fx-background-image: url("/resources/img/8.png");
+}
