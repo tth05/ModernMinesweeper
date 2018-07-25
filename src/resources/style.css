@@ -2,8 +2,8 @@
     /*-fx-background-color: cadetblue;*/
     -fx-scale-x: 1;
     -fx-scale-y: 1;
-    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.8), 5, 0, -1, -1);
-    -fx-background-color: lightgray;
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0), 5, 0, 0, 0);
+    -fx-background-color: linear-gradient(lightgray, #858585);
 }
 
 .cell:hover {
@@ -14,15 +14,17 @@
 .open {
     -fx-background-color: #b6b6b6;
     -fx-background-size: cover;
-    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.8), 5, 0, 0, 0);
+    -fx-effect: none;
 }
 
 .marked {
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
     -fx-background-image: url("/resources/img/flag.png");
     -fx-background-size: cover;
 }
 
 .bomb {
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
     -fx-background-image: url("/resources/img/bomb.png");
     -fx-background-size: cover;
 }
@@ -43,33 +45,41 @@
 }
 
 .n1 {
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
     -fx-background-image: url("/resources/img/1.png");
 }
 
 .n2 {
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
     -fx-background-image: url("/resources/img/2.png");
 }
 
 .n3 {
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
     -fx-background-image: url("/resources/img/3.png");
 }
 
 .n4 {
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
     -fx-background-image: url("/resources/img/4.png");
 }
 
 .n5 {
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
     -fx-background-image: url("/resources/img/5.png");
 }
 
 .n6 {
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
     -fx-background-image: url("/resources/img/6.png");
 }
 
 .n7 {
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
     -fx-background-image: url("/resources/img/7.png");
 }
 
 .n8 {
+    -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
     -fx-background-image: url("/resources/img/8.png");
 }

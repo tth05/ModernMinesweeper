@@ -2,13 +2,15 @@ package com.github.kotliniscool;
 
 import com.github.kotliniscool.game.Cell;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Game extends Application {
@@ -19,11 +21,11 @@ public class Game extends Application {
     private final int PADDING = 3;
     private final int MARGIN = 5;
     private Cell[][] grid = new Cell[TILES][TILES];
+    private Pane root = new Pane();
 
     @Override
     public void start(Stage primaryStage) {
-        Pane root = new Pane();
-        populateGrid(root);
+        populateGrid();
         root.getStylesheets().add("resources/style.css");
         primaryStage.setTitle("Minesweeper");
         primaryStage.setResizable(true);
@@ -32,7 +34,7 @@ public class Game extends Application {
         primaryStage.show();
     }
 
-    private void populateGrid(Pane root) {
+    private void populateGrid() {
         for (int i = 0; i < TILES; i++) {
             for (int j = 0; j < TILES; j++) {
                 Cell cell = new Cell(i, j);
@@ -92,7 +94,7 @@ public class Game extends Application {
                 if (!grid[i][j].isBomb() && grid[i][j].isHidden()) return;
             }
         }
-        System.out.println("You won");
+        showAlert("You won!", null);
     }
 
     private void floodFill(int i, int j) {
@@ -109,8 +111,8 @@ public class Game extends Application {
     }
 
     private Cell findInGrid(Cell cell) {
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid.length; j++) {
+        for (int i = 0; i < TILES; i++) {
+            for (int j = 0; j < TILES; j++) {
                 if (grid[i][j].equals(cell))
                     return grid[i][j];
             }
@@ -118,8 +120,26 @@ public class Game extends Application {
         return null;
     }
 
+    private void showAlert(String message, String title) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Minesweeper");
+        alert.setHeaderText(title);
+        alert.setContentText(message);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            root.getChildren().clear();
+            populateGrid();
+        }
+    }
+
     private void endGame() {
-        Platform.exit();
+        for (int i = 0; i < TILES; i++) {
+            for (int j = 0; j < TILES; j++) {
+                grid[i][j].setHidden(false);
+            }
+        }
+        showAlert("You lost", null);
     }
 
 

@@ -28,7 +28,7 @@ public class Cell extends Label {
             getStyleClass().addAll("open", isBomb ? "bomb" : "n" + bombCount);
         }
         else
-            getStyleClass().removeAll("open", "n" + bombCount);
+            getStyleClass().removeAll("open", "bomb", "n" + bombCount);
     }
 
     public boolean isBomb() {
