@@ -73,14 +73,14 @@ public class Game extends Application {
         if (event.getButton() == MouseButton.SECONDARY) {
             cell.setMarked(!cell.isMarked());
         }
-        if (cell.isBomb() && event.getButton() == MouseButton.PRIMARY) {
+        else if (cell.isBomb() && event.getButton() == MouseButton.PRIMARY) {
             endGame();
             return;
         }
-        if (cell.getBombCount() > 0) {
+        else if (cell.getBombCount() > 0) {
             cell.setHidden(false);
         }
-        if (event.getButton() == MouseButton.PRIMARY) {
+        else if (event.getButton() == MouseButton.PRIMARY) {
             floodFill(cell.getX(), cell.getY());
         }
         checkWin();
@@ -100,6 +100,7 @@ public class Game extends Application {
             for (int y = j - 1 < 0 ? 0 : j - 1; y <= (j + 1 > TILES - 1 ? TILES - 1 : j + 1); y++) {
                 if (!grid[x][y].isBomb() && grid[x][y].isHidden()) {
                     grid[x][y].setHidden(false);
+                    grid[x][y].setMarked(false);
                     if (grid[x][y].getBombCount() < 1)
                         floodFill(x, y);
                 }
