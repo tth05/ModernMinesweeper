@@ -15,8 +15,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Game extends Application {
 
-    private final int BOMB_COUNT = 10;
-    private final int TILES = 20;
+    private final int BOMB_COUNT = 15;
+    private final int TILES = 10;
     private final int TILE_SIZE = 30;
     private final int PADDING = 3;
     private final int MARGIN = 5;
@@ -35,6 +35,7 @@ public class Game extends Application {
     }
 
     private void populateGrid() {
+        //Add cells
         for (int i = 0; i < TILES; i++) {
             for (int j = 0; j < TILES; j++) {
                 Cell cell = new Cell(i, j);
@@ -48,12 +49,14 @@ public class Game extends Application {
             }
         }
 
+        //Add bombs
         for (int i = 0; i < BOMB_COUNT; i++) {
-            Cell cell = grid[ThreadLocalRandom.current().nextInt(BOMB_COUNT)][ThreadLocalRandom.current().nextInt(BOMB_COUNT)];
+            Cell cell = grid[ThreadLocalRandom.current().nextInt(TILES)][ThreadLocalRandom.current().nextInt(TILES)];
             if (cell.isBomb()) i--;
             else cell.setBomb(true);
         }
 
+        //Give the cells their numbers
         for (int i = 0; i < TILES; i++) {
             for (int j = 0; j < TILES; j++) {
                 if (grid[i][j].isBomb()) continue;
@@ -69,7 +72,7 @@ public class Game extends Application {
     }
 
     private void handleClick(MouseEvent event) {
-        Cell cell = findInGrid((Cell) event.getSource());
+        Cell cell = findInGrid(event.getSource());
         if (cell == null) return;
         if (!cell.isHidden()) return;
         if (event.getButton() == MouseButton.SECONDARY) {
@@ -94,9 +97,10 @@ public class Game extends Application {
                 if (!grid[i][j].isBomb() && grid[i][j].isHidden()) return;
             }
         }
-        showAlert("You won!", null);
+        showAlert("You won!");
     }
 
+    //Recursive flood fill algorithm
     private void floodFill(int i, int j) {
         for (int x = i - 1 < 0 ? 0 : i - 1; x <= (i + 1 > TILES - 1 ? TILES - 1 : i + 1); x++) {
             for (int y = j - 1 < 0 ? 0 : j - 1; y <= (j + 1 > TILES - 1 ? TILES - 1 : j + 1); y++) {
@@ -110,20 +114,22 @@ public class Game extends Application {
         }
     }
 
-    private Cell findInGrid(Cell cell) {
-        for (int i = 0; i < TILES; i++) {
-            for (int j = 0; j < TILES; j++) {
-                if (grid[i][j].equals(cell))
-                    return grid[i][j];
+    private Cell findInGrid(Object cell) {
+        if (cell instanceof Cell) {
+            for (int i = 0; i < TILES; i++) {
+                for (int j = 0; j < TILES; j++) {
+                    if (grid[i][j].equals(cell))
+                        return grid[i][j];
+                }
             }
         }
         return null;
     }
 
-    private void showAlert(String message, String title) {
+    private void showAlert(String message/*, String title*/) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Minesweeper");
-        alert.setHeaderText(title);
+//        alert.setHeaderText(title);
         alert.setContentText(message);
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -139,7 +145,7 @@ public class Game extends Application {
                 grid[i][j].setHidden(false);
             }
         }
-        showAlert("You lost", null);
+        showAlert("You lost");
     }
 
 
