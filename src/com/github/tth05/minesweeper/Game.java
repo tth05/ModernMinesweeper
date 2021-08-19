@@ -1,6 +1,5 @@
-package com.github.kotliniscool;
+package com.github.tth05.minesweeper;
 
-import com.github.kotliniscool.game.Cell;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -15,13 +14,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Game extends Application {
 
-    private final int BOMB_COUNT = 15;
-    private final int TILES = 10;
-    private final int TILE_SIZE = 30;
-    private final int PADDING = 3;
-    private final int MARGIN = 5;
-    private Cell[][] grid = new Cell[TILES][TILES];
-    private Pane root = new Pane();
+    private static final int BOMB_COUNT = 15;
+    private static final int TILES = 10;
+    private static final int TILE_SIZE = 40;
+    private static final int PADDING = (int) (TILE_SIZE * 0.1d);
+    private static final int MARGIN = 5;
+    private final Cell[][] grid = new Cell[TILES][TILES];
+    private final Pane root = new Pane();
 
     @Override
     public void start(Stage primaryStage) {
@@ -29,7 +28,9 @@ public class Game extends Application {
         root.getStylesheets().add("resources/style.css");
         primaryStage.setTitle("Minesweeper");
         primaryStage.setResizable(true);
-        primaryStage.setScene(new Scene(root, ((TILES - 1) * PADDING + TILES * TILE_SIZE) + MARGIN * 2, ((TILES - 1) * PADDING + TILES * TILE_SIZE) + MARGIN * 2));
+        int windowSize = ((TILES - 1) * PADDING + TILES * TILE_SIZE) + MARGIN * 2;
+        primaryStage.setScene(new Scene(root, windowSize, windowSize));
+        primaryStage.setResizable(false);
         primaryStage.sizeToScene();
         primaryStage.show();
     }
@@ -61,8 +62,8 @@ public class Game extends Application {
             for (int j = 0; j < TILES; j++) {
                 if (grid[i][j].isBomb()) continue;
                 int count = 0;
-                for (int x = i - 1 < 0 ? 0 : i - 1; x <= (i + 1 > TILES - 1 ? TILES - 1 : i + 1); x++) {
-                    for (int y = j - 1 < 0 ? 0 : j - 1; y <= (j + 1 > TILES - 1 ? TILES - 1 : j + 1); y++) {
+                for (int x = Math.max(i - 1, 0); x <= (Math.min(i + 1, TILES - 1)); x++) {
+                    for (int y = Math.max(j - 1, 0); y <= (Math.min(j + 1, TILES - 1)); y++) {
                         if (grid[x][y].isBomb()) count++;
                     }
                 }
@@ -72,22 +73,20 @@ public class Game extends Application {
     }
 
     private void handleClick(MouseEvent event) {
-        Cell cell = findInGrid(event.getSource());
-        if (cell == null) return;
+        if (!(event.getSource() instanceof Cell))
+            return;
+
+        Cell cell = (Cell) event.getSource();
         if (!cell.isHidden()) return;
-        if (event.getButton() == MouseButton.SECONDARY) {
+        if (event.getButton() == MouseButton.SECONDARY)
             cell.setMarked(!cell.isMarked());
-        }
         else if (cell.isBomb() && event.getButton() == MouseButton.PRIMARY) {
             endGame();
             return;
-        }
-        else if (cell.getBombCount() > 0) {
+        } else if (cell.getBombCount() > 0)
             cell.setHidden(false);
-        }
-        else if (event.getButton() == MouseButton.PRIMARY) {
+        else if (event.getButton() == MouseButton.PRIMARY)
             floodFill(cell.getX(), cell.getY());
-        }
         checkWin();
     }
 
@@ -102,8 +101,8 @@ public class Game extends Application {
 
     //Recursive flood fill algorithm
     private void floodFill(int i, int j) {
-        for (int x = i - 1 < 0 ? 0 : i - 1; x <= (i + 1 > TILES - 1 ? TILES - 1 : i + 1); x++) {
-            for (int y = j - 1 < 0 ? 0 : j - 1; y <= (j + 1 > TILES - 1 ? TILES - 1 : j + 1); y++) {
+        for (int x = Math.max(i - 1, 0); x <= (Math.min(i + 1, TILES - 1)); x++) {
+            for (int y = Math.max(j - 1, 0); y <= (Math.min(j + 1, TILES - 1)); y++) {
                 if (!grid[x][y].isBomb() && grid[x][y].isHidden()) {
                     grid[x][y].setHidden(false);
                     grid[x][y].setMarked(false);
@@ -114,22 +113,9 @@ public class Game extends Application {
         }
     }
 
-    private Cell findInGrid(Object cell) {
-        if (cell instanceof Cell) {
-            for (int i = 0; i < TILES; i++) {
-                for (int j = 0; j < TILES; j++) {
-                    if (grid[i][j].equals(cell))
-                        return grid[i][j];
-                }
-            }
-        }
-        return null;
-    }
-
-    private void showAlert(String message/*, String title*/) {
+    private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Minesweeper");
-//        alert.setHeaderText(title);
         alert.setContentText(message);
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -147,7 +133,6 @@ public class Game extends Application {
         }
         showAlert("You lost");
     }
-
 
     public static void main(String[] args) {
         launch(args);
